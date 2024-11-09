@@ -1,5 +1,7 @@
-package com.namu.thenamu.domain.development;
+package com.namu.thenamu.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.namu.thenamu.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -23,23 +25,28 @@ public class Board {
     private Long id;
 
     @NotNull(message = "제목을 반드시 입력해야 합니다.")
-    @Column(name = "board_content_title", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Lob
-    @Column(name = "board_content", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @CreationTimestamp
-    @Column(name = "board_content_created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "board_content_updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "board_content_thumbnailImage")
+    @Column(name = "thumbnail_image")
     private String thumbnailImage;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    @JsonManagedReference
+    private User user;
 
     // TODO
     // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
@@ -47,12 +54,14 @@ public class Board {
 
     public Board() {}
 
-    public Board(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Board(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnailImage, User user) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.thumbnailImage = thumbnailImage;
+        this.user = user;
     }
 
     public Long getId() {
@@ -77,5 +86,9 @@ public class Board {
 
     public String getThumbnailImage() {
         return thumbnailImage;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

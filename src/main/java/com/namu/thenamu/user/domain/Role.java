@@ -1,4 +1,4 @@
-package com.namu.thenamu.domain.user;
+package com.namu.thenamu.user.domain;
 
 public enum Role {
 

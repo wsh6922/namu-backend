@@ -1,10 +1,14 @@
-package com.namu.thenamu.domain.user;
+package com.namu.thenamu.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.namu.thenamu.board.domain.Board;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.List;
 
 
 @Entity
@@ -35,18 +39,27 @@ public class User {
     @Column(name = "user_role", length = 20)
     private Role role = Role.USER;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Board> boardList;
+
     // TODO
     // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
     // 객체 생성을 생성자 말고 정적팩토리메소드로 해볼 것
+    public User createUser(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
+        return new User(id, name, userId, password, role, boardList);
+    }
 
-    public User() {}
+    public User() {
+    }
 
-    public User(Long id, String name, String userId, String password, Role role) {
+    public User(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
         this.id = id;
         this.name = name;
         this.userId = userId;
         this.password = password;
         this.role = role;
+        this.boardList = boardList;
     }
 
     public Long getId() {
@@ -67,6 +80,10 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public List<Board> getBoardList() {
+        return boardList;
     }
 }
 
