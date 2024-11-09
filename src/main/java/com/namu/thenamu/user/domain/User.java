@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.namu.thenamu.board.domain.Board;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -43,15 +44,7 @@ public class User {
     @JsonBackReference
     private List<Board> boardList;
 
-    // TODO
-    // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
-    // 객체 생성을 생성자 말고 정적팩토리메소드로 해볼 것
-    public User createUser(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
-        return new User(id, name, userId, password, role, boardList);
-    }
-
-    public User() {
-    }
+    public User() {}
 
     public User(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
         this.id = id;
@@ -60,6 +53,18 @@ public class User {
         this.password = password;
         this.role = role;
         this.boardList = boardList;
+    }
+
+    // TODO
+    // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
+    // 객체 생성을 인스턴스 말고 정적팩토리메소드로 해볼 것
+    public static User createUser(String name, String userId, String password, Role role) {
+        return User.builder()
+                .name(name)
+                .userId(userId)
+                .password(password)
+                .role(role)
+                .build();
     }
 
     public Long getId() {

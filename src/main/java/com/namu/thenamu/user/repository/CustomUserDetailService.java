@@ -1,6 +1,5 @@
 package com.namu.thenamu.user.repository;
 
-import com.namu.thenamu.user.domain.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
@@ -27,6 +25,6 @@ public class CustomUserDetailService implements UserDetailsService {
                         .password(user.getPassword())
                         .authorities(List.of(new SimpleGrantedAuthority(user.getRole().name())))
                         .build())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with id:" + id));
+                .orElseThrow(() -> new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다 id:" + id));
     }
 }
