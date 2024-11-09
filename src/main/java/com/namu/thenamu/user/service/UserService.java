@@ -6,8 +6,6 @@ import com.namu.thenamu.user.dto.UserRequestDto;
 import com.namu.thenamu.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService {
 
@@ -20,9 +18,10 @@ public class UserService {
     public String signUp(UserRequestDto.SignUp signUp) {
 
         validateDuplicateUserId(signUp.getUserId());
+        Role roleAssigned = isRoleAssigned(signUp.getRole());
 
         User user = User.createUser(signUp.getUserId(), signUp.getName(),
-                signUp.getPassword(), Role.valueOf(signUp.getRole()));
+                signUp.getPassword(), roleAssigned);
 
         userRepository.save(user);
 
@@ -31,5 +30,9 @@ public class UserService {
 
     public void validateDuplicateUserId(String id) {
         if (userRepository.findByUserId(id).isPresent()) throw new IllegalArgumentException("이미 사용중인 아이디 입니다 id: " + id);
+    }
+
+    public Role isRoleAssigned(String role) {
+        return role != null && !role.isEmpty() ? Role.valueOf(role) : Role.USER;
     }
 }

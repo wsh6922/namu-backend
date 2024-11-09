@@ -38,13 +38,14 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", length = 20)
-    private Role role = Role.USER;
+    private Role role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Board> boardList;
 
-    public User() {}
+    public User() {
+    }
 
     public User(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
         this.id = id;

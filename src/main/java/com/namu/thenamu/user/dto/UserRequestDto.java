@@ -16,10 +16,13 @@ public class UserRequestDto {
     @AllArgsConstructor
     public static class SignUp {
 
+        @NotNull(message = "이름은 필수 입력 항목입니다.")
         private String name;
 
+        @NotNull(message = "아이디는 필수 입력 항목입니다.")
         private String userId;
 
+        @NotNull(message = "비밀번호는 필수 입력 항목입니다.")
         private String password;
 
         private String role;
