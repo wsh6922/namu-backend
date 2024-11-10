@@ -44,8 +44,7 @@ public class User {
     @JsonBackReference
     private List<Board> boardList;
 
-    public User() {
-    }
+    protected User() {}
 
     public User(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
         this.id = id;

@@ -1,6 +1,7 @@
 package com.namu.thenamu.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.namu.thenamu.category.domain.Category;
 import com.namu.thenamu.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -48,13 +49,18 @@ public class Board {
     @JsonManagedReference
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonManagedReference
+    private Category category;
+
     // TODO
     // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
     // 객체 생성을 생성자 말고 정적팩토리메소드로 해볼 것
 
-    public Board() {}
+    protected Board() {}
 
-    public Board(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnailImage, User user) {
+    public Board(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnailImage, User user, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -62,6 +68,7 @@ public class Board {
         this.updatedAt = updatedAt;
         this.thumbnailImage = thumbnailImage;
         this.user = user;
+        this.category = category;
     }
 
     public Long getId() {
@@ -90,5 +97,9 @@ public class Board {
 
     public User getUser() {
         return user;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }
