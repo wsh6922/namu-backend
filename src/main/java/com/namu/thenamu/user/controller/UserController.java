@@ -22,6 +22,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * 회원가입
+     * @param signUp
+     * @return
+     */
     @Transactional
     @PostMapping("/sign-up")
     public ResponseEntity<Object> signUp(@Valid @RequestBody UserRequestDto.SignUp signUp) {

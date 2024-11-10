@@ -58,6 +58,7 @@ public class User {
 
     // TODO
     // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
+
     // 객체 생성을 인스턴스 말고 정적팩토리메소드로 해볼 것
     public static User createUser(String name, String userId, String password, Role role) {
         return User.builder()

@@ -4,15 +4,18 @@ import com.namu.thenamu.user.domain.Role;
 import com.namu.thenamu.user.domain.User;
 import com.namu.thenamu.user.dto.UserRequestDto;
 import com.namu.thenamu.user.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String signUp(UserRequestDto.SignUp signUp) {
@@ -21,7 +24,7 @@ public class UserService {
         Role roleAssigned = isRoleAssigned(signUp.getRole());
 
         User user = User.createUser(signUp.getUserId(), signUp.getName(),
-                signUp.getPassword(), roleAssigned);
+                passwordEncoder.encode(signUp.getPassword()), roleAssigned);
 
         userRepository.save(user);
 
