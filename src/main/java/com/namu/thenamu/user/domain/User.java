@@ -1,10 +1,9 @@
 package com.namu.thenamu.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.namu.thenamu.board.domain.Board;
+import com.namu.thenamu.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -42,17 +41,17 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Board> boardList;
+    private List<Post> postList;
 
     protected User() {}
 
-    public User(Long id, String name, String userId, String password, Role role, List<Board> boardList) {
+    public User(Long id, String name, String userId, String password, Role role, List<Post> postList) {
         this.id = id;
         this.name = name;
         this.userId = userId;
         this.password = password;
         this.role = role;
-        this.boardList = boardList;
+        this.postList = postList;
     }
 
     // TODO
@@ -88,8 +87,8 @@ public class User {
         return role;
     }
 
-    public List<Board> getBoardList() {
-        return boardList;
+    public List<Post> getPostList() {
+        return postList;
     }
 }
 

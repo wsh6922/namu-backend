@@ -1,23 +1,13 @@
 package com.namu.thenamu.board.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.namu.thenamu.category.domain.Category;
-import com.namu.thenamu.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.namu.thenamu.post.domain.Post;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "board")
-@Builder
-@DynamicInsert
-@DynamicUpdate
 public class Board {
 
     @Id
@@ -25,81 +15,39 @@ public class Board {
     @Column(name = "board_id", updatable = false)
     private Long id;
 
-    @NotNull(message = "제목을 반드시 입력해야 합니다.")
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "board_category_name", nullable = false)
+    private String name;
 
-    @Lob
-    @Column(name = "content", columnDefinition = "TEXT")
-    private String content;
+    @Column(name = "board_slug", nullable = false)
+    private String slug;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Post> postList;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    protected Board() {
+    }
 
-    @Column(name = "thumbnail_image")
-    private String thumbnailImage;
-
-    @ManyToOne
-    @JoinColumn(name = "id")
-    @JsonManagedReference
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    @JsonManagedReference
-    private Category category;
-
-    // TODO
-    // Setter 메소드 대신에 비즈니스 메소드로 수정할 것
-    // 객체 생성을 생성자 말고 정적팩토리메소드로 해볼 것
-
-    protected Board() {}
-
-    public Board(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnailImage, User user, Category category) {
+    public Board(Long id, String name, String slug, List<Post> postList) {
         this.id = id;
-        this.title = title;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.thumbnailImage = thumbnailImage;
-        this.user = user;
-        this.category = category;
+        this.name = name;
+        this.slug = slug;
+        this.postList = postList;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public String getContent() {
-        return content;
+    public String getSlug() {
+        return slug;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getThumbnailImage() {
-        return thumbnailImage;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Category getCategory() {
-        return category;
+    public List<Post> getPostList() {
+        return postList;
     }
 }
