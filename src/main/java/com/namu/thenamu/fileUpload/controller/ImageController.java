@@ -45,4 +45,4 @@ public class ImageController {
 }
 
 // @RequestPart는 보통 DTO가 JSON 데이터와 파일 데이터를 모두 포함할 때 사용된다.
-// JSON 데이터를 포함하는 필드와 파일을 포함하는 별도의 필드가필요하다.
+// JSON 데이터를 포함하는 필드와 파일을 포함하는 별도의 필드가 필요하다.

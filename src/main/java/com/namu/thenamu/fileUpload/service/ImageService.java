@@ -22,7 +22,7 @@ public class ImageService {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucketName;
 
-    private static final String SAVE_DIR = "ImageContent";
+    private static final String SAVE_DIR = "image";
 
     public ImageService(S3Template s3Template) {
         this.s3Template = s3Template;
@@ -31,20 +31,29 @@ public class ImageService {
     public String uploadImage(MultipartFile file) {
         log.info("image original filename: {}", file.getOriginalFilename());
         String filename = file.getOriginalFilename(); // 업로드 파일명
-        String fileExtension = filename.substring(filename.lastIndexOf("."));
-        String uuidExtension = UUID.randomUUID() + fileExtension;
+        String storedFilename = generateStoredFilename(filename);
 
         if (!isImageFile(file)) throw new IllegalArgumentException("허용되지 않는 형식의 파일입니다: " + file.getContentType());
 
-        String key = SAVE_DIR + "/" + uuidExtension;
+        String key = SAVE_DIR + "/" + storedFilename;
 
         try (InputStream inputStream = file.getInputStream()) {
-            S3Resource s3Uploaded = s3Template.upload(bucketName, key, inputStream, objectMetadata(file));
+            S3Resource s3Resource = s3Template.upload(bucketName, key, inputStream, objectMetadata(file));
             log.info("image successfully uploaded to S3 bucket - filename: {}", key);
-            return s3Uploaded.getURI().toString();
+            return s3Resource.getURI().toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String generateStoredFilename(String originalFilename) {
+        String fileExtension = extractExtension(originalFilename);
+        return UUID.randomUUID() + "." + fileExtension;
+    }
+
+    public static String extractExtension(String originalFilename) {
+        int fileExtensionStartIndex = originalFilename.lastIndexOf(".") + 1;
+        return originalFilename.substring(fileExtensionStartIndex).toLowerCase();
     }
 
     public static boolean isImageFile(MultipartFile file) {
