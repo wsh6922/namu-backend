@@ -11,4 +11,8 @@ public class ImageUploadDto {
     public MultipartFile getImage() {
         return image;
     }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
 }

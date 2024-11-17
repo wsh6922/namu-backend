@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping()
-    public ResponseEntity<Object> uploadImageToS3(@Valid @RequestPart ImageUploadDto imageUploadDto) {
+    @PostMapping("/image/test")
+    public ResponseEntity<Object> uploadImageToS3(@Valid @ModelAttribute ImageUploadDto imageUploadDto) {
         log.info("image upload request received - file: {}, size: {}",
                 imageUploadDto.getImage(),
                 imageUploadDto.getImage().getSize());
@@ -42,3 +43,6 @@ public class ImageController {
        }
     }
 }
+
+// @RequestPart는 보통 DTO가 JSON 데이터와 파일 데이터를 모두 포함할 때 사용된다.
+// JSON 데이터를 포함하는 필드와 파일을 포함하는 별도의 필드가필요하다.
