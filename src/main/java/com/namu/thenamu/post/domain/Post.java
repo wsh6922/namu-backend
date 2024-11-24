@@ -33,13 +33,13 @@ public class Post {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+//    @CreationTimestamp
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private LocalDateTime createdAt;
+//
+//    @UpdateTimestamp
+//    @Column(name = "updated_at")
+//    private LocalDateTime updatedAt;
 
     @Column(name = "thumbnail_image")
     private String thumbnailImage;
@@ -61,12 +61,10 @@ public class Post {
     protected Post() {
     }
 
-    public Post(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnailImage, User user, Board board) {
+    public Post(Long id, String title, String content, String thumbnailImage, User user, Board board) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.thumbnailImage = thumbnailImage;
         this.user = user;
         this.board = board;
@@ -83,15 +81,6 @@ public class Post {
     public String getContent() {
         return content;
     }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getThumbnailImage() {
         return thumbnailImage;
     }

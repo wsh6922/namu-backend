@@ -7,13 +7,11 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@RequestMapping("/api/image")
 public class ImageController {
 
     private final ImageService imageService;
@@ -22,7 +20,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping("/image/test")
+    @PostMapping("/test")
     public ResponseEntity<Object> uploadImageToS3(@Valid @ModelAttribute ImageUploadDto imageUploadDto) {
         log.info("image upload request received - file: {}, size: {}",
                 imageUploadDto.getImage(),

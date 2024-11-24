@@ -46,11 +46,22 @@ public class ImageService {
         }
     }
 
+
+    /**
+     *
+     * @param originalFilename
+     * @return 객체 키로 만들 저장할 이미지 파일명 난수와 구분점과 함께 생성 후 문자열로 반환
+     */
     public static String generateStoredFilename(String originalFilename) {
         String fileExtension = extractExtension(originalFilename);
         return UUID.randomUUID() + "." + fileExtension;
     }
 
+    /**
+     *
+     * @param originalFilename
+     * @return 순수 확장자만 추출해서 소문자로 반환
+     */
     public static String extractExtension(String originalFilename) {
         int fileExtensionStartIndex = originalFilename.lastIndexOf(".") + 1;
         return originalFilename.substring(fileExtensionStartIndex).toLowerCase();
