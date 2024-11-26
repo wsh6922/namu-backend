@@ -22,20 +22,18 @@ public class ImageService {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucketName;
 
-    private static final String SAVE_DIR = "image";
-
     public ImageService(S3Template s3Template) {
         this.s3Template = s3Template;
     }
 
-    public String uploadImage(MultipartFile file) {
+    public String uploadImage(MultipartFile file, String saveDir) {
         log.info("image original filename: {}", file.getOriginalFilename());
         String filename = file.getOriginalFilename(); // 업로드 파일명
         String storedFilename = generateStoredFilename(filename);
 
         if (!isImageFile(file)) throw new IllegalArgumentException("허용되지 않는 형식의 파일입니다: " + file.getContentType());
 
-        String key = SAVE_DIR + "/" + storedFilename;
+        String key = saveDir + "/" + storedFilename;
 
         try (InputStream inputStream = file.getInputStream()) {
             S3Resource s3Resource = s3Template.upload(bucketName, key, inputStream, objectMetadata(file));

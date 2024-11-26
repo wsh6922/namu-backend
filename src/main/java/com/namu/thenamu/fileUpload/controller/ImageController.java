@@ -16,6 +16,8 @@ public class ImageController {
 
     private final ImageService imageService;
 
+    private static final String SAVE_DIR = "contentImage";
+
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }
@@ -27,7 +29,7 @@ public class ImageController {
                 imageUploadDto.getImage().getSize());
 
        try {
-           String image = imageService.uploadImage(imageUploadDto.getImage());
+           String image = imageService.uploadImage(imageUploadDto.getImage(), SAVE_DIR);
            return ResponseHandler.responseBuilder(
                    HttpStatus.OK,
                    "이미지 업로드 완료",

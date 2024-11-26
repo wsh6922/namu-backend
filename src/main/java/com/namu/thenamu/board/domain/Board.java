@@ -16,10 +16,7 @@ public class Board {
     private Long id;
 
     @Column(name = "board_category_name", nullable = false)
-    private String name;
-
-    @Column(name = "board_slug", nullable = false)
-    private String slug;
+    private String boardName;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
@@ -28,10 +25,9 @@ public class Board {
     protected Board() {
     }
 
-    public Board(Long id, String name, String slug, List<Post> postList) {
+    public Board(Long id, String boardName, List<Post> postList) {
         this.id = id;
-        this.name = name;
-        this.slug = slug;
+        this.boardName = boardName;
         this.postList = postList;
     }
 
@@ -39,15 +35,23 @@ public class Board {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getSlug() {
-        return slug;
+    public String getBoardName() {
+        return boardName;
     }
 
     public List<Post> getPostList() {
         return postList;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
     }
 }

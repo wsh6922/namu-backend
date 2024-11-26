@@ -1,5 +1,8 @@
 package com.namu.thenamu.post.dto;
 
+import com.namu.thenamu.board.domain.Board;
+import com.namu.thenamu.post.domain.Post;
+import com.namu.thenamu.user.domain.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,10 +15,12 @@ public class PostRequestDto {
     private String content;
 
     @NotBlank
-    private String category = "카테고리 없음";
+    private Long boardId;
 
     @NotNull(message = "업로드한 파일이 존재하지 않습니다.")
-    private MultipartFile uploadedImage;
+    private MultipartFile thumbnailImage;
+
+    private User user;
 
     public String getTitle() {
         return title;
@@ -33,19 +38,37 @@ public class PostRequestDto {
         this.content = content;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getBoardId() {
+        return boardId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setBoardId(Long boardId) {
+        this.boardId = boardId;
     }
 
-    public MultipartFile getUploadedImage() {
-        return uploadedImage;
+    public MultipartFile getThumbnailImage() {
+        return thumbnailImage;
     }
 
-    public void setUploadedImage(MultipartFile uploadedImage) {
-        this.uploadedImage = uploadedImage;
+    public void setThumbnailImage(MultipartFile thumbnailImage) {
+        this.thumbnailImage = thumbnailImage;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post toPost(String imageUrl, Board board) {
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .thumbnailImage(imageUrl)
+                .user(user)
+                .board(board)
+                .build();
     }
 }

@@ -6,12 +6,8 @@ import com.namu.thenamu.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "post")
@@ -45,12 +41,12 @@ public class Post {
     private String thumbnailImage;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     @JsonManagedReference
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "board_id")
     @JsonManagedReference
     private Board board;
 
@@ -81,6 +77,7 @@ public class Post {
     public String getContent() {
         return content;
     }
+
     public String getThumbnailImage() {
         return thumbnailImage;
     }
