@@ -23,7 +23,7 @@ public class UserService {
         validateDuplicateUserId(signUp.getUserId());
         Role roleAssigned = isRoleAssigned(signUp.getRole());
 
-        User user = User.createUser(signUp.getUserId(), signUp.getName(),
+        User user = User.createUser(signUp.getName(), signUp.getUserId(),
                 passwordEncoder.encode(signUp.getPassword()), roleAssigned);
 
         userRepository.save(user);
