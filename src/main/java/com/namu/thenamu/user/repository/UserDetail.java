@@ -1,41 +1,38 @@
 package com.namu.thenamu.user.repository;
 
+import com.namu.thenamu.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Getter
 @Builder
 public class UserDetail implements UserDetails {
 
-    private final String id;
+    private final User user;
 
-    private final String password;
-
-    private final Collection<? extends GrantedAuthority> authorities;
+    public UserDetail(User user) {
+        this.user = user;
+    }
 
     @Override
     public String getUsername() {
-        return id;
+        return user.getUserId();
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public UserDetail(String id, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.password = password;
-        this.authorities = authorities;
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
     }
 
     @Override

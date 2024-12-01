@@ -1,6 +1,7 @@
 package com.namu.thenamu.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.namu.thenamu.post.domain.Post;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -79,19 +80,18 @@ public class User {
         return userId;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonIgnore
     public Role getRole() {
         return role;
     }
 
+    @JsonIgnore
     public List<Post> getPostList() {
         return postList;
     }
 }
-
-//    @Size(min = 8, max = 20, message = "비밀번호는 8자 이상 20자 이하여야 합니다.")
-//    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&]).+$",
-//            message = "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다.")
