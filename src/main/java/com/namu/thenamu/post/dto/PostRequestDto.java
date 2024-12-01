@@ -14,7 +14,7 @@ public class PostRequestDto {
 
     private String content;
 
-    @NotBlank
+    @NotNull
     private Long boardId;
 
     @NotNull(message = "업로드한 파일이 존재하지 않습니다.")

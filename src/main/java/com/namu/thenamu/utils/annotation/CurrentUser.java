@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @AuthenticationPrincipal(expression = "T(com.namu.thenamu.utils.annotation.AuthenticationValidator).validatePrincipal(#this)")
-public @interface CurrentAuthUser {
+public @interface CurrentUser {
 }
