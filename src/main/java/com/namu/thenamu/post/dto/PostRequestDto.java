@@ -17,8 +17,11 @@ public class PostRequestDto {
     @NotNull
     private Long boardId;
 
-    @NotNull(message = "업로드한 파일이 존재하지 않습니다.")
-    private MultipartFile thumbnailImage;
+    @NotBlank(message = "업로드한 파일이 존재하지 않습니다.")
+    private String thumbnailImage;
+
+//    @NotNull(message = "업로드한 파일이 존재하지 않습니다.")
+//    private MultipartFile thumbnailImage;
 
     private User user;
 
@@ -46,11 +49,20 @@ public class PostRequestDto {
         this.boardId = boardId;
     }
 
-    public MultipartFile getThumbnailImage() {
+//    public MultipartFile getThumbnailImage() {
+//        return thumbnailImage;
+//    }
+//
+//    public void setThumbnailImage(MultipartFile thumbnailImage) {
+//        this.thumbnailImage = thumbnailImage;
+//    }
+
+
+    public String getThumbnailImage() {
         return thumbnailImage;
     }
 
-    public void setThumbnailImage(MultipartFile thumbnailImage) {
+    public void setThumbnailImage(String thumbnailImage) {
         this.thumbnailImage = thumbnailImage;
     }
 
@@ -62,11 +74,11 @@ public class PostRequestDto {
         this.user = user;
     }
 
-    public Post toPost(String imageUrl, Board board) {
+    public Post toPost(Board board) {
         return Post.builder()
                 .title(title)
                 .content(content)
-                .thumbnailImage(imageUrl)
+                .thumbnailImage(thumbnailImage)
                 .user(user)
                 .board(board)
                 .build();

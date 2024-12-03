@@ -30,14 +30,23 @@ public class PostService {
         this.boardRepository = boardRepository;
     }
 
+//    public Post create(PostRequestDto postRequestDto, User user) {
+//        Board boardCategory = boardRepository.findById(postRequestDto.getBoardId())
+//                .orElseThrow(() -> new EntityNotFoundException("Board category not present in the database"));
+//
+//        String thumbnailImageUrl = imageService.uploadImage(postRequestDto.getThumbnailImage(), SAVE_DIR);
+//
+//        postRequestDto.setUser(user);
+//        Post post = postRequestDto.toPost(thumbnailImageUrl, boardCategory);
+//        return postRepository.save(post);
+//    }
+
     public Post create(PostRequestDto postRequestDto, User user) {
         Board boardCategory = boardRepository.findById(postRequestDto.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException("Board category not present in the database"));
 
-        String thumbnailImageUrl = imageService.uploadImage(postRequestDto.getThumbnailImage(), SAVE_DIR);
-
         postRequestDto.setUser(user);
-        Post post = postRequestDto.toPost(thumbnailImageUrl, boardCategory);
+        Post post = postRequestDto.toPost(boardCategory);
         return postRepository.save(post);
     }
 }

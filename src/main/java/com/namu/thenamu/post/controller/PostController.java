@@ -8,11 +8,13 @@ import com.namu.thenamu.user.repository.UserDetail;
 import com.namu.thenamu.utils.annotation.CurrentUser;
 import com.namu.thenamu.utils.response.ResponseHandler;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class PostController {
@@ -23,10 +25,21 @@ public class PostController {
         this.postService = postService;
     }
 
+//    @PostMapping("/post/create")
+//    public ResponseEntity<Object> createPostApi(@CurrentUser UserDetail userDetail, @Valid @ModelAttribute PostRequestDto postRequestDto) {
+//        User user = userDetail.getUser();
+//        Post post = this.postService.create(postRequestDto, user);
+//        log.info("post content: {}", post.getContent());
+//        return ResponseHandler.responseBuilder(HttpStatus.OK
+//                ,"Post successfully register",
+//                post);
+//    }
+
     @PostMapping("/post/create")
     public ResponseEntity<Object> createPostApi(@CurrentUser UserDetail userDetail, @Valid @ModelAttribute PostRequestDto postRequestDto) {
         User user = userDetail.getUser();
         Post post = this.postService.create(postRequestDto, user);
+        log.info("post content: {}", post.getContent());
         return ResponseHandler.responseBuilder(HttpStatus.OK
                 ,"Post successfully register",
                 post);
