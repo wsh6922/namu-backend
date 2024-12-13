@@ -1,6 +1,7 @@
 package com.namu.thenamu.post.controller;
 
 import com.namu.thenamu.post.domain.Post;
+import com.namu.thenamu.post.dto.PostListDto;
 import com.namu.thenamu.post.dto.PostRequestDto;
 import com.namu.thenamu.post.service.PostService;
 import com.namu.thenamu.user.domain.User;
@@ -12,7 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -43,6 +47,16 @@ public class PostController {
         return ResponseHandler.responseBuilder(HttpStatus.OK
                 ,"Post successfully register",
                 post);
+    }
+
+    @GetMapping("/post/read")
+    public ResponseEntity<Object> readPostApi(@RequestParam("board") Long id) {
+        List<PostListDto> postList = postService.readPosts(id);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                postList
+        );
     }
 
     @GetMapping("/post/test")

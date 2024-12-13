@@ -5,12 +5,15 @@ import com.namu.thenamu.board.repository.BoardRepository;
 import com.namu.thenamu.fileUpload.service.ImageService;
 import com.namu.thenamu.post.Repository.PostRepository;
 import com.namu.thenamu.post.domain.Post;
+import com.namu.thenamu.post.dto.PostListDto;
 import com.namu.thenamu.post.dto.PostRequestDto;
 import com.namu.thenamu.user.domain.User;
-import com.namu.thenamu.user.repository.UserDetail;
+import com.namu.thenamu.utils.mapper.PostMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Service
 @RestController("/api")
@@ -48,5 +51,10 @@ public class PostService {
         postRequestDto.setUser(user);
         Post post = postRequestDto.toPost(boardCategory);
         return postRepository.save(post);
+    }
+
+    public List<PostListDto> readPosts(Long id) {
+        List<Post> postList = postRepository.getPostByBoardId(id);
+        return PostMapper.INSTANCE.toPostListDto(postList);
     }
 }
