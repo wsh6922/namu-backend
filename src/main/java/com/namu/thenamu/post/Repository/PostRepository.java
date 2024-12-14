@@ -11,6 +11,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Transactional
-    @Query("select p from Post p where p.board.id = :board_id")
+    @Query("select p from Post p where p.board.id = :board_id order by p.id desc")
     List<Post> getPostByBoardId(Long board_id);
 }

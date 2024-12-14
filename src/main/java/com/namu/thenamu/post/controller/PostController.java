@@ -49,9 +49,19 @@ public class PostController {
                 post);
     }
 
+    @GetMapping("/post/read-one")
+    public ResponseEntity<Object> readPostOneApi(@RequestParam("id") Long postId) {
+        Post post = this.postService.readPost(postId);
+        return ResponseHandler.responseBuilder(
+                HttpStatus.OK,
+                null,
+                post
+        );
+    }
+
     @GetMapping("/post/read")
-    public ResponseEntity<Object> readPostApi(@RequestParam("board") Long id) {
-        List<PostListDto> postList = postService.readPosts(id);
+    public ResponseEntity<Object> readPostApi(@RequestParam("id") Long boardId) {
+        List<PostListDto> postList = this.postService.readPosts(boardId);
         return ResponseHandler.responseBuilder(
                 HttpStatus.OK,
                 null,

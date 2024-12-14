@@ -53,6 +53,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    public Post readPost(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
+
+        return post;
+    }
+
     public List<PostListDto> readPosts(Long id) {
         List<Post> postList = postRepository.getPostByBoardId(id);
         return PostMapper.INSTANCE.toPostListDto(postList);
